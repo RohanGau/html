@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Rohan Kumar</title>
+    <link rel="stylesheet" href="/assets/css/segments.css" />
+    <link
+      rel="stylesheet"
+      href="/assets/css/heavy.css"
+      media="(orientation:portrait)"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/css/heavy.css"
+      media="print"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/css/heavy.css"
+      media="all"
+    />
+    <!-- <link rel="stylesheet" href="/assets/css/sprite.css" media="all" /> -->
+    <style>
+      #navList {
+        background-color: antiquewhite;
+        position: relative;
+      }
+
+      #navList li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        position: absolute;
+        top: 0;
+      }
+
+      #navList li, #navList a {
+        height: 44px;
+        display: block;
+      }
+
+      #home {
+        left: 0px;
+        width: 46px;
+        background: url('/assets/icons/css_sprit.png') 0 0;
+      }
+
+      #prev {
+        left: 63px;
+        width: 43px;
+        background: url('/assets/icons/css_sprit.png') -47px 0;
+      }
+
+      #next {
+        left: 129px;
+        width: 43px;
+        background: url('/assets/icons/css_sprit.png') -91px 0;
+      }
+      #frame {
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body style="text-align: center">
+    <div>
+      <iframe loading="lazy" id="iframe" width='1080' height='760' src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+      <iframe loading="lazy" id="iframe" width='1080' height='760' src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+      <iframe loading="lazy" id="iframe" width='1080' height='760' src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+      <iframe loading="lazy" id="iframe" width='1080' height='760' src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+      <iframe loading="lazy" id="iframe" width='1080' height='760' src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+      <iframe loading="lazy" id="iframe" width='1080' height='760' src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+      <iframe loading="lazy" id="iframe" width='1080' height='760' src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </body>
+  <script type="module" src="worker.js"></script>
+  <script type="module" src="index.js"></script>
+  <script>
+    function handleload() {
+      alert("Lazy loading")
+    }
+    
+    const lezyelement = document.querySelectorAll('[loading="lazy"]');
+    
+    lezyelement.forEach((item) => {
+     item.addEventListener("load", handleload);
+    })
+  </script>
+</html>
