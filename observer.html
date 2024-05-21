@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Rohan Kumar</title>
+    <!-- <link rel="stylesheet" href="/assets/css/sprite.css" media="all" /> -->
+    <style>
+      .image-container {
+      width: 300px;
+      height: 300px;
+      overflow: hidden;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+    }
+    .image-container img {
+      width: 100%;
+      height: auto;
+    }
+    .container {
+      height: 80vh;
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+    }
+    .item {
+      padding: 20px;
+      border-bottom: 1px solid #ddd;
+    }
+    .scrollerFooter {
+      padding: 20px;
+      text-align: center;
+    }
+    </style>
+  </head>
+  <body style="text-align: center">
+    <div class="container" style="display: flex; flex-direction: column;">
+      <img src="/assets//icons/css_sprit.png" id="image" alt="example image" />
+      <img src="/assets//icons/css_sprit.png" id="image" alt="example image" />
+      <img src="/assets//icons/css_sprit.png" id="image" alt="example image" />
+      <img src="/assets//icons/css_sprit.png" id="image" class="target" alt="example image" />
+      <img src="/assets//icons/css_sprit.png" id="image" alt="example image" />
+      <img src="/assets//icons/css_sprit.png" id="image" alt="example image" />
+      <div class="scrollfooter">Loading Item...</div>
+    </div>
+  </body>
+  <script type="module" src="worker.js"></script>
+  <script type="module" src="index.js"></script>
+  <script>
+    // ****Example of scroller loading***
+    function loadItems(count) {
+      const container = document.querySelector('.container');
+      for(let i = 0; i < count; i++) {
+        const newItem = document.createElement("div");
+        newItem.className = "item";
+        newItem.textContent = `Item ${container.children.length}`;
+        container.insertBefore(newItem, document.querySelector(".scrollfooter"));
+      }
+    }
+    
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      if(entries[0].intersectionRatio <= 0) return;
+      loadItems(10);
+      console.log("loading Item.....");
+    });
+    
+    intersectionObserver.observe( document.querySelector(".scrollfooter"));
+
+
+    // Example of image lazy loading 
+    const observer = new IntersectionObserver(lazyLoadImage);
+      
+      function lazyLoadImage(entries, observer) {
+        entries.forEach((entry) => {
+          const img = entry.target;
+          // console.log("img :", img);
+          const src = img.getAttribute("data-src");
+          console.log("src :", src);
+          img.setAttribute("src", src);
+          observer.unobserve(img);
+        });
+      };
+      
+      const lazyImages = document.querySelectorAll("img[data-src]");
+      
+      lazyImages.forEach((img) => observer.observe(img));
+  </script>
+</html>
