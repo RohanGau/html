@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Rohan Kumar</title>
+    <link rel="stylesheet" href="/assets/css/segments.css" />
+    <link
+      rel="stylesheet"
+      href="/assets/css/heavy.css"
+      media="(orientation:portrait)"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/css/heavy.css"
+      media="print"
+    />
+    <link
+      rel="stylesheet"
+      href="/assets/css/heavy.css"
+      media="all"
+    />
+    <!-- <link rel="stylesheet" href="/assets/css/sprite.css" media="all" /> -->
+    <style>
+      .container {
+          max-width: 800px;
+          margin: 0 auto;
+          padding: 20px;
+        }
+
+        .content-block {
+          margin-bottom: 40px;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 8px;
+          background-color: #f9f9f9;
+        }
+
+        .content-visibility {
+          content-visibility: auto;
+          contain-intrinsic-size: 200px; /* Estimate size to avoid layout shift */
+        }
+
+        .lazy-load {
+          min-height: 100px; /* Placeholder height for lazy-loaded content */
+        }
+
+        .content-block h2 {
+          margin-top: 0;
+        }
+    </style>
+  </head>
+  <body style="text-align: center">
+    <div class="container">
+      <section class="content-block">
+        <h2>Block 1</h2>
+        <p>This block is always visible.</p>
+      </section>
+      <section class="content-block content-visibility">
+        <h2>Block 2</h2>
+        <p>This block is hidden until scrolled into view. It has many lines of text to demonstrate the effect.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        <!-- Add more content here to make it long enough to scroll -->
+      </section>
+      <section class="content-block content-visibility lazy-load" data-chunk-url="http://127.0.0.1:5500/chunk1.html">
+        <h2>Lazy Loaded Block 1</h2>
+        <p>This block will load its content on demand.</p>
+      </section>
+      <section class="content-block">
+        <h2>Block 3</h2>
+        <p>This block is always visible.</p>
+      </section>
+      <section class="content-block">
+        <h2>Block 5</h2>
+        <p>This block is always visible.</p>
+      </section>
+      <section class="content-block">
+        <h2>Block 7</h2>
+        <p>This block is always visible.</p>
+      </section>
+      <section class="content-block content-visibility">
+        <h2>Block 4</h2>
+        <p>This block is hidden until scrolled into view. It has many lines of text to demonstrate the effect.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+      </section>
+      <section class="content-block content-visibility lazy-load" data-chunk-url="chunk2.html">
+        <h2>Lazy Loaded Block 2</h2>
+        <p>This block will load its content on demand.</p>
+      </section>
+      <!-- Add more sections as needed -->
+    </div>
+  </body>
+  <script type="module" src="worker.js"></script>
+  <script type="module" src="index.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const lazyLoadSection = document.querySelectorAll(".lazy-load");
+  
+    const intersectionObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if(entry.isIntersecting) {
+          const section = entry.target;
+          const chunkUrl = section.getAttribute("data-chunk-url");
+          console.log(chunkUrl);
+          fetch(chunkUrl).then((response) => {
+            console.log("response :", response.text())
+            response.text();
+          }).then((data) => {
+            console.log("data :", data)
+            section.innerHTML += data;
+            observer.unobserve(section);
+          }).catch((error) => console.log("Error chunks load", error));
+        }
+      });
+    });
+  
+    lazyLoadSection.forEach((section) => intersectionObserver.observe(section));
+  });
+  </script>
+</html>
